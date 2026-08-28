@@ -6,10 +6,12 @@ const jobRouter = require('./routes/jobs');
 const notFound = require('./middlewares/notFound');
 const errorHandler = require('./middlewares/errorHandler');
 const connectDB = require('./db/connect');
+const auth = require('./middlewares/authenticate');
 const app = express();
 
+app.use(express.json());
 app.use('/api/v1/auth', authRouter);
-app.use('/api/v1/jobs', jobRouter);
+app.use('/api/v1/jobs', auth, jobRouter);
 app.use(notFound);
 app.use(errorHandler);
 
