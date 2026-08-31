@@ -1,27 +1,61 @@
-const { BadRequestError } = require('../errors');
+const { StatusCodes } = require('http-status-codes');
+const Job = require('../models/Job');
+const { BadRequestError, NotFoundError } = require('../errors');
 
-const getAllJobs = (req, res) => {
-    res.send('All Jobs');
+const getAllJobs = async (req, res) => {
+    const { userId } = req.user;
+    const jobs = await Job.find({ createdBy: userId }).sort('createdAt');
+    res.status(StatusCodes.OK).json({ count: jobs.length, jobs });
 };
 
-const getJob = (req, res) => {
-    const { id } = req.params;
-    if (id == '123') {
-        throw new BadRequestError('ID can not be 123');
+const getJob = async (req, res) => {
+    const { userId } = req.user;
+    const { id: jobId } = req.params;
+
+    const job = await Job.find({ createdBy: userId, _id: jobId });
+
+    if (!job) {
+        throw new NotFoundError('Job not found');
     }
-    res.send('Single Job');
+
+    res.status(StatusCodes.OK).json({ job });
 };
 
-const createJob = (req, res) => {
-    res.send('Create Job');
+const createJob = async (req, res) => {
+    const { userId } = req.user;
+    req.body.createdBy = userId;
+    const job = await Job.create(req.body);
+    res.status(StatusCodes.CREATED).json({ job });
 };
 
-const updateJob = (req, res) => {
-    res.send('Update Job');
+const updateJob = async (req, res) => {
+    const { userId } = req.user;
+    const { id: jobId } = req.params;
+
+    const job = await Job.findOneAndUpdate(
+        { createdBy: userId, _id: jobId },
+        req.body,
+        { new: true, runValidators: true }
+    );
+
+    if (!job) {
+        throw new NotFoundError('Job not found');
+    }
+
+    res.status(StatusCodes.OK).json({ job });
 };
 
-const deleteJob = (req, res) => {
-    res.send('Delete Job');
+const deleteJob = async (req, res) => {
+    const { userId } = req.user;
+    const { id: jobId } = req.params;
+
+    const job = await Job.findOneAndDelete({ createdBy: userId, _id: jobId });
+
+    if (!job) {
+        throw new NotFoundError('Job not found');
+    }
+
+    res.status(StatusCodes.OK).send();
 };
 
 module.exports = { getAllJobs, getJob, createJob, updateJob, deleteJob };
