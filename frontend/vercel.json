@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://your-actual-backend-domain.com/api/:path*"
+      "destination": "https://job-tracker-alpha-pink.vercel.app/api/:path*"
     },
     {
       "source": "/(.*)",
