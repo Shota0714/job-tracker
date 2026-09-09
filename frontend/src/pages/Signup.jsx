@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/letter-j.png';
-import axios from 'axios';
+import axiosInstance from '../path/to/axiosInstance';
 import { useState } from 'react';
 
 const Signup = () => {
@@ -13,10 +13,7 @@ const Signup = () => {
         const dataObj = Object.fromEntries(data);
 
         try {
-            const res = await axios.post(
-                `${import.meta.env.BACKEND}/api/v1/auth/register`,
-                dataObj
-            );
+            const res = await axiosInstance.post('/auth/register', dataObj);
             setError(false);
             localStorage.setItem('token', res.data.token);
             navigate('/dashboard');

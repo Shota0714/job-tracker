@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/letter-j.png';
-import axios from 'axios';
+import axiosInstance from '../path/to/axiosInstance';
 import { useState } from 'react';
 
 const Login = () => {
@@ -13,7 +13,7 @@ const Login = () => {
         const dataObj = Object.fromEntries(data);
 
         try {
-            const res = await axios.post(`${import.meta.env.BACKEND}/api/v1/auth/login`, dataObj);
+            const res = await axiosInstance.post('/auth/login', dataObj);
             setError(false);
             localStorage.setItem('token', res.data.token);
             navigate('/dashboard');
