@@ -13,7 +13,7 @@ const Login = () => {
         const dataObj = Object.fromEntries(data);
 
         try {
-            const res = await axios.post(`${import.meta.env.VITE_BACKEND}/api/v1/auth/login`, dataObj);
+            const res = await axios.post(`${import.meta.env.BACKEND}/api/v1/auth/login`, dataObj);
             setError(false);
             localStorage.setItem('token', res.data.token);
             navigate('/dashboard');

@@ -14,7 +14,7 @@ const Signup = () => {
 
         try {
             const res = await axios.post(
-                `${import.meta.env.VITE_BACKEND}/api/v1/auth/register`,
+                `${import.meta.env.BACKEND}/api/v1/auth/register`,
                 dataObj
             );
             setError(false);
