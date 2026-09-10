@@ -6,7 +6,7 @@ const JobCard = ({ job }) => {
     const getStatusBadge = (status) => {
         const s = status ? status.toLowerCase() : 'pending';
         let bg = 'rgba(100, 116, 139, 0.2)';
-        let color = '#94a3b8';
+        let color = '#cbd5e1';
 
         if (s.includes('interview')) {
             bg = 'rgba(59, 130, 246, 0.2)';
@@ -14,7 +14,7 @@ const JobCard = ({ job }) => {
         } else if (s.includes('offer')) {
             bg = 'rgba(34, 197, 94, 0.2)';
             color = '#4ade80';
-        } else if (s.includes('reject')) {
+        } else if (s.includes('reject') || s.includes('declined')) {
             bg = 'rgba(239, 68, 68, 0.2)';
             color = '#fca5a5';
         }
@@ -49,7 +49,7 @@ const JobCard = ({ job }) => {
             </div>
             <div className='mb-4'>
                 <div className='d-flex align-items-center gap-2'>
-                    <span className='text-muted small' style={{ fontSize: '0.8rem' }}>Status:</span>
+                    <span className='text-light opacity-75 small' style={{ fontSize: '0.8rem' }}>Status:</span>
                     {getStatusBadge(job.status)}
                 </div>
             </div>

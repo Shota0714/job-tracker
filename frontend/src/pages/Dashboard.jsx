@@ -44,7 +44,6 @@ const Dashboard = () => {
 
     return (
         <div style={{ minHeight: '100vh', backgroundColor: '#0f172a', color: '#f8fafc' }} className="pb-5">
-            {/* Cool Glassmorphic Navbar */}
             <nav className="navbar fixed-top" style={{ backgroundColor: 'rgba(15, 23, 42, 0.85)', backdropFilter: 'blur(10px)', borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
                 <div className='container py-2'>
                     <a href='#' className='navbar-brand d-flex align-items-center gap-2'>
@@ -56,22 +55,18 @@ const Dashboard = () => {
                     </Link>
                 </div>
             </nav>
-
-            {/* Main Content Container with safe top margin for fixed navbar */}
             <div className='container' style={{ paddingTop: '7rem' }}>
-                
-                {/* Header & Add Job Card Section */}
                 <div className='row justify-content-center mb-5'>
                     <div className='col-md-6 col-lg-4'>
                         <div className="card border-0 shadow-lg p-4" style={{ backgroundColor: '#1e293b', borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
                             <div className="text-center mb-3">
                                 <h4 className="fw-bold text-white mb-1">Track New Job</h4>
-                                <p className="text-muted small">Enter the company and position to get started</p>
+                                <p className="text-light opacity-75 small">Enter the company and position to get started</p>
                             </div>
                             <form onSubmit={addJob} className="d-flex flex-column gap-3">
                                 <div>
                                     <input
-                                        className='form-control bg-dark text-white border-secondary'
+                                        className='form-control bg-dark text-white border-secondary shadow-none'
                                         type='text'
                                         name='company'
                                         placeholder='Company Name'
@@ -81,7 +76,7 @@ const Dashboard = () => {
                                 </div>
                                 <div>
                                     <input
-                                        className='form-control bg-dark text-white border-secondary'
+                                        className='form-control bg-dark text-white border-secondary shadow-none'
                                         type='text'
                                         name='position'
                                         placeholder='Job Position'
@@ -96,15 +91,12 @@ const Dashboard = () => {
                         </div>
                     </div>
                 </div>
-
-                {/* Jobs Grid Section */}
                 <div className="mb-4 text-center">
                     <h3 className="fw-bold text-white">Your Applications</h3>
-                    <p className="text-muted">Manage and track your interview pipeline</p>
+                    <p className="text-light opacity-75">Manage and track your interview pipeline</p>
                 </div>
-
                 {jobs.length === 0 ? (
-                    <div className="text-center text-muted py-5">
+                    <div className="text-center text-light opacity-75 py-5">
                         <p className="fs-5">No jobs tracked yet. Add your first one above! 🚀</p>
                     </div>
                 ) : (
@@ -115,6 +107,18 @@ const Dashboard = () => {
                     </div>
                 )}
             </div>
+            <style>{`
+                ::placeholder {
+                    color: #94a3b8 !important;
+                    opacity: 1 !important;
+                }
+                :-ms-input-placeholder {
+                    color: #94a3b8 !important;
+                }
+                ::-ms-input-placeholder {
+                    color: #94a3b8 !important;
+                }
+            `}</style>
         </div>
     );
 };
