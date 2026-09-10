@@ -32,6 +32,9 @@ const DashboardNavbar = () => {
                         <li className="nav-item">
                             <Link to='/jobs' className="nav-link text-light fw-semibold">Job Lists</Link>
                         </li>
+                        <li className="nav-item">
+                            <Link to='/jobs/add' className="nav-link text-light fw-semibold">Add Job</Link>
+                        </li>
                     </ul>
                     <div className="d-flex align-items-center">
                         <button className='btn btn-outline-danger btn-sm px-4 rounded-pill fw-semibold transition-all w-100 w-md-auto' onClick={handleLogout}>
