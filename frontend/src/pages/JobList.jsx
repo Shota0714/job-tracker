@@ -44,12 +44,12 @@ const JobList = () => {
                         + Add New Job
                     </Link>
                 </div>
-                <div className="row mb-5">
-                    <div className="col-12 col-md-6 col-lg-4">
+                <div className="row justify-content-center mb-5">
+                    <div className="col-12 col-md-8 col-lg-6">
                         <div className="position-relative">
                             <input
                                 type="text"
-                                className="form-control bg-dark text-white border-secondary shadow-none ps-4"
+                                className="form-control bg-dark text-white border-secondary shadow-none text-center"
                                 placeholder="🔍 Search by company or position..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -83,6 +83,7 @@ const JobList = () => {
                 ::placeholder {
                     color: #94a3b8 !important;
                     opacity: 1 !important;
+                    text-align: center;
                 }
             `}</style>
         </div>
