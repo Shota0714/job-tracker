@@ -6,6 +6,7 @@ import JobCard from '../components/JobCard';
 
 const JobList = () => {
     const [jobs, setJobs] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         const getJobs = async () => {
@@ -18,6 +19,13 @@ const JobList = () => {
         };
         getJobs();
     }, []);
+
+    const filteredJobs = jobs.filter((job) => {
+        const term = searchTerm.toLowerCase();
+        const company = job.company ? job.company.toLowerCase() : '';
+        const position = job.position ? job.position.toLowerCase() : '';
+        return company.includes(term) || position.includes(term);
+    });
 
     return (
         <div style={{ minHeight: '100vh', backgroundColor: '#0f172a', color: '#f8fafc' }} className="pb-5">
@@ -36,21 +44,47 @@ const JobList = () => {
                         + Add New Job
                     </Link>
                 </div>
-                {jobs.length === 0 ? (
+                <div className="row mb-5">
+                    <div className="col-12 col-md-6 col-lg-4">
+                        <div className="position-relative">
+                            <input
+                                type="text"
+                                className="form-control bg-dark text-white border-secondary shadow-none ps-4"
+                                placeholder="🔍 Search by company or position..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                style={{ padding: '0.75rem 1rem', borderRadius: '12px' }}
+                            />
+                        </div>
+                    </div>
+                </div>
+                {filteredJobs.length === 0 ? (
                     <div className="text-center text-light opacity-75 py-5">
-                        <p className="fs-5 mb-3">No jobs tracked yet. Add your first one to get started!</p>
-                        <Link to='/jobs/add' className='btn btn-outline-light btn-sm px-4 rounded-pill'>
-                            Add Job
-                        </Link>
+                        {jobs.length === 0 ? (
+                            <>
+                                <p className="fs-5 mb-3">No jobs tracked yet. Add your first one to get started!</p>
+                                <Link to='/jobs/add' className='btn btn-outline-light btn-sm px-4 rounded-pill'>
+                                    Add Job
+                                </Link>
+                            </>
+                        ) : (
+                            <p className="fs-5 mb-3">No applications match your search query "{searchTerm}".</p>
+                        )}
                     </div>
                 ) : (
                     <div className='d-flex gap-4 flex-wrap justify-content-center'>
-                        {jobs.map((job) => (
+                        {filteredJobs.map((job) => (
                             <JobCard job={job} key={job._id} />
                         ))}
                     </div>
                 )}
             </div>
+            <style>{`
+                ::placeholder {
+                    color: #94a3b8 !important;
+                    opacity: 1 !important;
+                }
+            `}</style>
         </div>
     );
 };
