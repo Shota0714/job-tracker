@@ -11,6 +11,11 @@ const JobSchema = new mongoose.Schema({
         required: [true, 'Please provide a position'],
         maxlength: 100,
     },
+    date: {
+        type: Date,
+        required: [true, 'Please provide the application date'],
+        default: Date.now,
+    },
     status: {
         type: String,
         enum: ['interview', 'pending', 'declined'],

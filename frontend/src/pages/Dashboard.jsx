@@ -7,6 +7,7 @@ import JobCard from '../components/JobCard';
 const Dashboard = () => {
     const navigate = useNavigate();
     const [jobs, setJobs] = useState([]);
+    const today = new Date().toISOString().split('T')[0];
 
     const addJob = async (e) => {
         e.preventDefault();
@@ -61,7 +62,7 @@ const Dashboard = () => {
                         <div className="card border-0 shadow-lg p-4" style={{ backgroundColor: '#1e293b', borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
                             <div className="text-center mb-3">
                                 <h4 className="fw-bold text-white mb-1">Track New Job</h4>
-                                <p className="text-light opacity-75 small">Enter the company and position to get started</p>
+                                <p className="text-light opacity-75 small">Enter details to get started</p>
                             </div>
                             <form onSubmit={addJob} className="d-flex flex-column gap-3">
                                 <div>
@@ -82,6 +83,17 @@ const Dashboard = () => {
                                         placeholder='Job Position'
                                         required
                                         style={{ padding: '0.75rem 1rem', borderRadius: '10px' }}
+                                    />
+                                </div>
+                                <div>
+                                    <label className='form-label text-light small mb-1'>Application Date</label>
+                                    <input
+                                        className='form-control bg-dark text-white border-secondary shadow-none'
+                                        type='date'
+                                        name='date'
+                                        defaultValue={today}
+                                        required
+                                        style={{ padding: '0.75rem 1rem', borderRadius: '10px', colorScheme: 'dark' }}
                                     />
                                 </div>
                                 <button type='submit' className='btn btn-primary btn-lg w-100 fw-semibold mt-2 shadow' style={{ background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)', border: 'none', borderRadius: '10px', padding: '0.75rem' }}>
@@ -111,12 +123,6 @@ const Dashboard = () => {
                 ::placeholder {
                     color: #94a3b8 !important;
                     opacity: 1 !important;
-                }
-                :-ms-input-placeholder {
-                    color: #94a3b8 !important;
-                }
-                ::-ms-input-placeholder {
-                    color: #94a3b8 !important;
                 }
             `}</style>
         </div>

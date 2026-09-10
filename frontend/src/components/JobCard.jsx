@@ -26,6 +26,12 @@ const JobCard = ({ job }) => {
         );
     };
 
+    const formatDate = (dateString) => {
+        if (!dateString) return 'N/A';
+        const options = { year: 'numeric', month: 'short', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+    };
+
     return (
         <div
             className='card border-0 shadow-lg p-4 text-start position-relative transition-all'
@@ -47,15 +53,19 @@ const JobCard = ({ job }) => {
                     </p>
                 </div>
             </div>
-            <div className='mb-4'>
-                <div className='d-flex align-items-center gap-2'>
+            <div className='mb-3'>
+                <div className='d-flex align-items-center justify-content-between mb-2'>
                     <span className='text-light opacity-75 small' style={{ fontSize: '0.8rem' }}>Status:</span>
                     {getStatusBadge(job.status)}
+                </div>
+                <div className='d-flex align-items-center justify-content-between'>
+                    <span className='text-light opacity-75 small' style={{ fontSize: '0.8rem' }}>Applied:</span>
+                    <span className='text-light small fw-semibold' style={{ fontSize: '0.8rem' }}>{formatDate(job.date)}</span>
                 </div>
             </div>
             <button
                 onClick={() => navigate(`/jobs/${job._id}/edit`)}
-                className='btn btn-sm w-100 fw-semibold text-white shadow-sm'
+                className='btn btn-sm w-100 fw-semibold text-white shadow-sm mt-2'
                 style={{
                     backgroundColor: '#334155',
                     border: '1px solid rgba(255, 255, 255, 0.1)',

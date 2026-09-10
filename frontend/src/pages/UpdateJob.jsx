@@ -5,7 +5,7 @@ import logo from '../assets/letter-j.png';
 
 const UpdateJob = () => {
     const { id } = useParams();
-    const [job, setJob] = useState({ company: '', position: '', status: 'pending' });
+    const [job, setJob] = useState({ company: '', position: '', status: 'pending', date: '' });
     const navigate = useNavigate();
 
     const editJob = async (e) => {
@@ -37,7 +37,12 @@ const UpdateJob = () => {
         const getJob = async () => {
             try {
                 const res = await axiosInstance.get(`/jobs/${id}`);
-                setJob(res.data.job[0] || { company: '', position: '', status: 'pending' });
+                const fetchedJob = res.data.job[0] || { company: '', position: '', status: 'pending', date: '' };
+
+                if (fetchedJob.date) {
+                    fetchedJob.date = fetchedJob.date.split('T')[0];
+                }
+                setJob(fetchedJob);
             } catch (err) {
                 console.log(err);
             };
@@ -62,9 +67,8 @@ const UpdateJob = () => {
                                     />
                                 </Link>
                                 <h1 className='h3 mt-3 mb-1 fw-bold text-white'>Edit Application</h1>
-                                <p className='text-light opacity-75 small'>Update or remove your job tracking details</p>
+                                <p className='text-light opacity-75 small'>Update your tracking details</p>
                             </div>
-
                             <form onSubmit={editJob} className="d-flex flex-column gap-3">
                                 <div>
                                     <label className='form-label text-light small mb-1'>Company</label>
@@ -72,7 +76,6 @@ const UpdateJob = () => {
                                         className='form-control bg-dark text-white border-secondary shadow-none'
                                         type='text'
                                         name='company'
-                                        placeholder='Company Name'
                                         defaultValue={job.company}
                                         key={job.company}
                                         required
@@ -85,11 +88,22 @@ const UpdateJob = () => {
                                         className='form-control bg-dark text-white border-secondary shadow-none'
                                         type='text'
                                         name='position'
-                                        placeholder='Job Position'
                                         defaultValue={job.position}
                                         key={job.position}
                                         required
                                         style={{ padding: '0.75rem 1rem', borderRadius: '10px' }}
+                                    />
+                                </div>
+                                <div>
+                                    <label className='form-label text-light small mb-1'>Application Date</label>
+                                    <input
+                                        className='form-control bg-dark text-white border-secondary shadow-none'
+                                        type='date'
+                                        name='date'
+                                        defaultValue={job.date}
+                                        key={job.date}
+                                        required
+                                        style={{ padding: '0.75rem 1rem', borderRadius: '10px', colorScheme: 'dark' }}
                                     />
                                 </div>
                                 <div>
@@ -141,12 +155,6 @@ const UpdateJob = () => {
                 ::placeholder {
                     color: #94a3b8 !important;
                     opacity: 1 !important;
-                }
-                :-ms-input-placeholder {
-                    color: #94a3b8 !important;
-                }
-                ::-ms-input-placeholder {
-                    color: #94a3b8 !important;
                 }
             `}</style>
         </div>
