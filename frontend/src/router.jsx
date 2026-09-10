@@ -4,6 +4,7 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import ProtectedRoutes from './pages/ProtectedRoutes';
 import Dashboard from './pages/Dashboard';
+import JobList from './pages/JobList';
 import UpdateJob from './pages/UpdateJob';
 import NotFound from './pages/NotFound';
 
@@ -25,6 +26,14 @@ const router = createBrowserRouter([
         element: (
             <ProtectedRoutes>
                 <Dashboard />
+            </ProtectedRoutes>
+        )
+    },
+    {
+        path: '/jobs',
+        element: (
+            <ProtectedRoutes>
+                <JobList />
             </ProtectedRoutes>
         )
     },
