@@ -30,7 +30,7 @@ const DashboardNavbar = () => {
                             <Link to='/dashboard' className="nav-link text-light fw-semibold">Dashboard</Link>
                         </li>
                         <li className="nav-item">
-                            <Link to='/jobs' className="nav-link text-light fw-semibold">Job Lists</Link>
+                            <Link to='/joblist' className="nav-link text-light fw-semibold">Job Lists</Link>
                         </li>
                     </ul>
                     <div className="d-flex align-items-center">
