@@ -86,7 +86,7 @@ const Signup = () => {
                                             padding: '0.75rem'
                                         }}
                                     >
-                                        Sign Up 🚀
+                                        Sign Up
                                     </button>
                                 </div>
                             </form>

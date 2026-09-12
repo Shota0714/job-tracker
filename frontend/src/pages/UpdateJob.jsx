@@ -131,7 +131,7 @@ const UpdateJob = () => {
                                             padding: '0.75rem'
                                         }}
                                     >
-                                        Save Changes 💾
+                                        Save Changes
                                     </button>
                                     <button
                                         type='button'
@@ -143,7 +143,7 @@ const UpdateJob = () => {
                                             borderColor: 'rgba(239, 68, 68, 0.4)'
                                         }}
                                     >
-                                        Delete Application 🗑️
+                                        Delete Application
                                     </button>
                                 </div>
                             </form>

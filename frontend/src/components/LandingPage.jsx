@@ -19,7 +19,7 @@ const LandingPage = () => {
                             JOB <span style={{ color: '#6366f1' }}>MANAGER</span>
                         </h1>
                         <p className='text-secondary fs-6 lh-lg mb-4'>
-                            Take control of your work day with Job Manager — the simplest way to organize, track, and prioritize your jobs. Whether you're managing freelance gigs, client tasks, or team projects, our intuitive dashboard helps you stay focused and never miss a deadline. Add, update, and complete jobs with ease — all in one place.
+                            Master your workday with Job Manager. The all-in-one platform designed to keep your tasks organized, your priorities clear, and your deadlines on track—no matter what you're working on.
                         </p>
                         <Link
                             to='/signup'
@@ -31,7 +31,7 @@ const LandingPage = () => {
                                 padding: '0.85rem 1.5rem'
                             }}
                         >
-                            Get Started 🚀
+                            Get Started
                         </Link>
                     </div>
                 </div>

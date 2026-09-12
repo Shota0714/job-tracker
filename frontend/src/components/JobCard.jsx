@@ -73,7 +73,7 @@ const JobCard = ({ job }) => {
                     padding: '0.5rem'
                 }}
             >
-                Edit Application ✏️
+                Edit Application
             </button>
         </div>
     );

@@ -8,7 +8,7 @@ const Dashboard = () => {
 
             <div className='container' style={{ paddingTop: '8rem' }}>
                 <div className="mb-4 text-center">
-                    <h1 className="fw-bold text-white">Welcome Back! 🚀</h1>
+                    <h1 className="fw-bold text-white">Welcome Back!</h1>
                     <p className="text-light opacity-75">Here is an overview of your job hunting pipeline.</p>
                 </div>
 

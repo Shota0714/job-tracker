@@ -65,7 +65,7 @@ const AddJob = () => {
                                     />
                                 </div>
                                 <button type='submit' className='btn btn-primary btn-lg w-100 fw-semibold mt-3 shadow' style={{ background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)', border: 'none', borderRadius: '10px', padding: '0.75rem' }}>
-                                    Save Application 🚀
+                                    Save Application
                                 </button>
                             </form>
                         </div>

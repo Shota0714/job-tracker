@@ -22,7 +22,7 @@ const NotFound = () => {
                                     padding: '0.75rem'
                                 }}
                             >
-                                Go Back Home 🏠
+                                Go Back Home
                             </Link>
                         </div>
                     </div>

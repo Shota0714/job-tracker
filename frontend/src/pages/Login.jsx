@@ -74,7 +74,7 @@ const Login = () => {
                                             padding: '0.75rem'
                                         }}
                                     >
-                                        Login 🚀
+                                        Login
                                     </button>
                                 </div>
                             </form>
