@@ -18,6 +18,10 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please provide password'],
     },
+    profileImage: {
+        type: String,
+        default: '',
+    }
 });
 
 UserSchema.pre('save', async function () {

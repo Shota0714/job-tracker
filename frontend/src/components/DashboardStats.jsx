@@ -1,53 +1,94 @@
-import { useEffect, useState } from 'react';
-import axiosInstance from '../utils/axios';
+const DashboardStats = ({ jobs = [], period = '30' }) => {
+    const total = jobs.length;
+    const interview = jobs.filter(j => (j.status || '').toLowerCase() === 'interview').length;
+    const pending = jobs.filter(j => (j.status || '').toLowerCase() === 'pending').length;
+    const declined = jobs.filter(j => (j.status || '').toLowerCase() === 'declined').length;
 
-const DashboardStats = () => {
-    const [stats, setStats] = useState({ total: 0, interview: 0, pending: 0, declined: 0 });
+    const now = new Date();
+    const periodDays = parseInt(period);
 
-    useEffect(() => {
-        const fetchStats = async () => {
-            try {
-                const res = await axiosInstance.get('/jobs');
-                const jobs = res.data.jobs;
-                const total = jobs.length;
-                const interview = jobs.filter(j => j.status === 'interview').length;
-                const pending = jobs.filter(j => j.status === 'pending').length;
-                const declined = jobs.filter(j => j.status === 'declined').length;
+    const startOfCurrentPeriod = new Date(now);
+    startOfCurrentPeriod.setHours(0, 0, 0, 0);
+    startOfCurrentPeriod.setDate(now.getDate() - periodDays);
 
-                setStats({ total, interview, pending, declined });
-            } catch (err) {
-                console.log(err);
-            }
-        };
-        fetchStats();
-    }, []);
+    const startOfPreviousPeriod = new Date(startOfCurrentPeriod);
+    startOfPreviousPeriod.setDate(startOfPreviousPeriod.getDate() - periodDays);
+
+    const currentPeriodJobs = jobs.filter(j => {
+        const jobDate = new Date(j.createdAt || j.date);
+        return jobDate >= startOfCurrentPeriod;
+    }).length;
+
+    const previousPeriodJobs = jobs.filter(j => {
+        const jobDate = new Date(j.createdAt || j.date);
+        return jobDate >= startOfPreviousPeriod && jobDate < startOfCurrentPeriod;
+    }).length;
+
+    let trendText = '0%';
+    let isPositive = true;
+
+    if (previousPeriodJobs === 0) {
+        trendText = currentPeriodJobs > 0 ? `+${currentPeriodJobs}` : '0%';
+        isPositive = true;
+    } else {
+        const percentChange = Math.round(((currentPeriodJobs - previousPeriodJobs) / previousPeriodJobs) * 100);
+        trendText = `${percentChange >= 0 ? '+' : ''}${percentChange}%`;
+        isPositive = percentChange >= 0;
+    };
+
+    const statCards = [
+        {
+            title: 'APPLICATIONS',
+            count: total,
+            badge: trendText,
+            badgeClass: isPositive ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger'
+        },
+        {
+            title: 'AWATING RESPONSE',
+            count: pending,
+            badge: pending > 0 ? 'Action required' : 'None',
+            badgeClass: pending > 0 ? 'bg-danger-subtle text-danger' :'bg-success-subtle text-success'
+        },
+        {
+            title: 'REJECTIONS',
+            count: declined,
+            badge: `${declined} total`,
+            badgeClass: 'bg-secondary-subtle text-secondary'
+        },
+        {
+            title: 'INTERVIEWS',
+            count: interview,
+            badge: interview > 0 ? 'Active' : 'None',
+            badgeClass: interview > 0 ? 'bg-primary-subtle text-primary' : 'bg-light text-muted'
+        },
+    ];
 
     return (
-        <div className="row g-4 mb-5 justify-content-center">
-            <div className="col-12 col-sm-6 col-md-3">
-                <div className="card border-0 shadow-lg p-4 text-center" style={{ backgroundColor: '#1e293b', borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
-                    <h6 className="text-light opacity-75 small mb-2">Total Applications</h6>
-                    <h2 className="display-5 fw-bold text-white mb-0">{stats.total}</h2>
+        <div className='row g-4 mb-5'>
+            {statCards.map((card, index) => (
+                <div key={index} className='col-12 col-sm-6 col-xl-3'>
+                    <div
+                        className='card border-0 shadow-sm p-4 bg-white'
+                        style={{ borderRadius: '16px', border: '1px solid #e2e8f0' }}
+                    >
+                        <span
+                            className='text-muted small fw-bold mb-2 d-block'
+                            style={{ fontSize: '0.75rem', letterSpacing: '0.05em' }}
+                        >
+                            {card.title}
+                        </span>
+                        <div className='d-flex align-items-baseline justify-content-between'>
+                            <h2 className='display-6 fw-bold mb-0 text-dark'>{card.count}</h2>
+                            <span
+                                className={`badge fw-bold px-2 py-1 rounded ${card.badgeClass}`}
+                                style={{ fontSize: '0.7rem' }}
+                            >
+                                {card.badge}
+                            </span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div className="col-12 col-sm-6 col-md-3">
-                <div className="card border-0 shadow-lg p-4 text-center" style={{ backgroundColor: '#1e293b', borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
-                    <h6 className="small mb-2" style={{ color: '#60a5fa' }}>Interviews</h6>
-                    <h2 className="display-5 fw-bold text-white mb-0">{stats.interview}</h2>
-                </div>
-            </div>
-            <div className="col-12 col-sm-6 col-md-3">
-                <div className="card border-0 shadow-lg p-4 text-center" style={{ backgroundColor: '#1e293b', borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
-                    <h6 className="small mb-2" style={{ color: '#fbbf24' }}>Pending</h6>
-                    <h2 className="display-5 fw-bold text-white mb-0">{stats.pending}</h2>
-                </div>
-            </div>
-            <div className="col-12 col-sm-6 col-md-3">
-                <div className="card border-0 shadow-lg p-4 text-center" style={{ backgroundColor: '#1e293b', borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
-                    <h6 className="small mb-2" style={{ color: '#fca5a5' }}>Declined</h6>
-                    <h2 className="display-5 fw-bold text-white mb-0">{stats.declined}</h2>
-                </div>
-            </div>
+            ))}
         </div>
     );
 };

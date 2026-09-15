@@ -1,5 +1,5 @@
 const { StatusCodes } = require('http-status-codes');
-const { BadRequestError, UnauthenticatedError } = require('../errors');
+const { BadRequestError, UnauthenticatedError, NotFoundError } = require('../errors');
 const User = require('../models/User');
 
 const login = async (req, res) => {
@@ -32,4 +32,14 @@ const register = async (req, res) => {
     res.status(StatusCodes.OK).json({ name: user.name, token });
 };
 
-module.exports = { login, register };
+const showCurrentUser = async (req, res) => {
+    const user = await User.findById(req.user.userId).select('name email profileImage');
+
+    if (!user) {
+        throw new NotFoundError('User Not Found');
+    }
+
+    res.status(StatusCodes.OK).json({ user });
+};
+
+module.exports = { login, register, showCurrentUser };

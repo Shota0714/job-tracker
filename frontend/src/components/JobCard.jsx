@@ -5,72 +5,100 @@ const JobCard = ({ job }) => {
 
     const getStatusBadge = (status) => {
         const s = status ? status.toLowerCase() : 'pending';
-        let bg = 'rgba(100, 116, 139, 0.2)';
-        let color = '#cbd5e1';
+        let bg = '#e2e8f0';
+        let color = '#475569';
 
         if (s.includes('interview')) {
-            bg = 'rgba(59, 130, 246, 0.2)';
-            color = '#60a5fa';
+            bg = '#dbeafe';
+            color = '#1d4ed8';
         } else if (s.includes('offer')) {
-            bg = 'rgba(34, 197, 94, 0.2)';
-            color = '#4ade80';
+            bg = '#dcfce7';
+            color = '#15803d';
         } else if (s.includes('reject') || s.includes('declined')) {
-            bg = 'rgba(239, 68, 68, 0.2)';
-            color = '#fca5a5';
+            bg = '#fee2e2';
+            color = '#b91c1c';
+        } else if (s.includes('applied')) {
+            bg = '#e0f2fe';
+            color = '#0369a1';
         }
 
         return (
-            <span className='badge px-3 py-2 rounded-pill fw-semibold' style={{ backgroundColor: bg, color: color, fontSize: '0.75rem' }}>
-                {job.status || 'Pending'}
+            <span className='badge px-3 py-2 rounded-pill fw-medium' style={{ backgroundColor: bg, color: color, fontSize: '0.75rem' }}>
+                {job.status ? job.status.charAt(0).toUpperCase() + job.status.slice(1) : 'Pending'}
             </span>
         );
     };
 
     const formatDate = (dateString) => {
         if (!dateString) return 'N/A';
-        const options = { year: 'numeric', month: 'short', day: 'numeric' };
-        return new Date(dateString).toLocaleDateString(undefined, options);
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+        return new Date(dateString).toLocaleDateString('en-CA', options);
     };
 
     return (
         <div
-            className='card border-0 shadow-lg p-4 text-start position-relative transition-all'
+            className='card border-0 p-4 text-start position-relative job-card bg-white shadow-sm'
             style={{
                 width: '300px',
-                backgroundColor: '#1e293b',
                 borderRadius: '16px',
-                border: '1px solid rgba(255, 255, 255, 0.05)',
-                color: '#f8fafc'
+                border: '1px solid #e2e8f0',
+                color: '#0f172a',
+                transition: 'all 0.2s ease',
+                cursor: 'pointer'
             }}
+            onClick={() => navigate(`/jobs/${job._id}/edit`)}
         >
-            <div className='d-flex justify-content-between align-items-start mb-3'>
-                <div>
-                    <h5 className='fw-bold text-white mb-1 text-truncate' style={{ maxWidth: '200px' }} title={job.company}>
-                        {job.company}
+            <style>{`
+                .job-card:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+                    border-color: #cbd5e1 !important;
+                }
+                .job-card:hover .edit-btn {
+                    background-color: #f1f5f9;
+                    color: #0f172a;
+                }
+            `}</style>
+            <div className='d-flex align-items-center gap-2 mb-3'>
+                <span
+                    className='rounded bg-light text-secondary d-flex align-items-center justify-content-center fw-bold border flex-shrink-0'
+                    style={{ width: '32px', height: '32px', fontSize: '0.8rem', borderColor: '#e2e8f0' }}
+                >
+                    {job.company ? job.company.charAt(0).toUpperCase() : 'C'}
+                </span>
+                <div className="overflow-hidden">
+                    <h5 className='fw-bold text-dark mb-0 text-truncate' style={{ fontSize: '0.95rem' }} title={job.company}>
+                        {job.company || 'Unknown'}
                     </h5>
-                    <p className='text-light opacity-75 small mb-0 text-truncate' style={{ maxWidth: '200px' }} title={job.position}>
-                        {job.position}
+                    <p className='text-muted small mb-0 text-truncate' style={{ fontSize: '0.8rem' }} title={job.position}>
+                        {job.position || 'No Position'}
                     </p>
                 </div>
             </div>
-            <div className='mb-3'>
-                <div className='d-flex align-items-center justify-content-between mb-2'>
-                    <span className='text-light opacity-75 small' style={{ fontSize: '0.8rem' }}>Status:</span>
+            <hr style={{ borderColor: '#f1f5f9', margin: '0.75rem 0' }} />
+            <div className='mb-3 d-flex flex-column gap-2'>
+                <div className='d-flex align-items-center justify-content-between'>
+                    <span className='text-muted small' style={{ fontSize: '0.8rem' }}>Status</span>
                     {getStatusBadge(job.status)}
                 </div>
-                <div className='d-flex align-items-center justify-content-between'>
-                    <span className='text-light opacity-75 small' style={{ fontSize: '0.8rem' }}>Applied:</span>
-                    <span className='text-light small fw-semibold' style={{ fontSize: '0.8rem' }}>{formatDate(job.date)}</span>
+                <div className='d-flex align-items-center justify-content-between py-1'>
+                    <span className='text-muted small' style={{ fontSize: '0.8rem' }}>Applied Date</span>
+                    <span className='text-dark small fw-medium' style={{ fontSize: '0.8rem' }}>{formatDate(job.date)}</span>
                 </div>
             </div>
             <button
-                onClick={() => navigate(`/jobs/${job._id}/edit`)}
-                className='btn btn-sm w-100 fw-semibold text-white shadow-sm mt-2'
+                onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/jobs/${job._id}/edit`);
+                }}
+                className='btn btn-sm w-100 fw-medium shadow-sm edit-btn'
                 style={{
-                    backgroundColor: '#334155',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    backgroundColor: '#ffffff',
+                    color: '#475569',
+                    border: '1px solid #e2e8f0',
                     borderRadius: '8px',
-                    padding: '0.5rem'
+                    padding: '0.45rem',
+                    fontSize: '0.8rem'
                 }}
             >
                 Edit Application
