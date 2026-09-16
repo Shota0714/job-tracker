@@ -153,7 +153,7 @@ const Dashboard = () => {
     };
 
 return (
-        <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc', color: '#0f172a', overflowX: 'hidden' }} className="d-flex">
+        <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc', color: '#0f172a', overflowX: 'hidden' }} className="d-flex pb-sm-100">
             <div className="d-none d-lg-block">
                 <DashboardNavbar />
                 <DashboardLeftsidebar />
@@ -167,7 +167,7 @@ return (
                         }
                     }
                 `}</style>
-                <div className='container-fluid p-3 p-md-4 p-lg-5' style={{ maxWidth: '100%' }}>
+                <div className='container-fluid p-3 p-md-4 p-lg-5 mb-4' style={{ maxWidth: '100%' }}>
                     <div className='d-flex flex-column flex-md-row justify-content-between align-items-stretch align-items-md-center mb-4 gap-3'>
                         <div className='d-flex gap-1 overflow-auto pb-1 pb-md-0 w-100'>
                             {[

@@ -53,7 +53,7 @@ const JobList = () => {
                         opacity: 1 !important;
                     }
                 `}</style>
-                <div className='container-fluid p-3 p-md-4 p-lg-5' style={{ maxWidth: '100%' }}>
+                <div className='container-fluid p-3 p-md-4 p-lg-5 mb-4' style={{ maxWidth: '100%' }}>
                     <div className='d-flex flex-column flex-md-row justify-content-between align-items-stretch align-items-md-center mb-4 gap-3'>
                         <div className='d-flex gap-2 align-items-center flex-wrap flex-sm-nowrap w-100 w-md-auto'>
                             <input
@@ -82,7 +82,7 @@ const JobList = () => {
                     ) : (
                         <div className='row g-3 justify-content-center justify-content-md-start'>
                             {filteredJobs.map((job) => (
-                                <div className='col-12 col-md-6 col-xl-4 d-flex justify-content-center justify-content-md-start' key={job._id}>
+                                <div className='col-6 col-xl-3 d-flex justify-content-center justify-content-md-start' key={job._id}>
                                     <JobCard job={job} />
                                 </div>
                             ))}

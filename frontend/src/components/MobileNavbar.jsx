@@ -44,12 +44,10 @@ const MobileNavbar = () => {
             >
                 <div className='d-flex align-items-center gap-2'>
                     <button
-                        className='btn p-0 d-flex align-items-center justify-content-center text-dark shadow-sm position-relative'
+                        className='btn p-0 d-flex align-items-center justify-content-center text-dark position-relative'
                         onClick={() => setIsOpen(true)}
                         style={{
                             backgroundColor: '#ffffff',
-                            border: '1px solid #e2e8f0',
-                            borderRadius: '12px',
                             width: '42px',
                             height: '42px',
                             transition: 'all 0.2s ease-in-out',
@@ -58,7 +56,7 @@ const MobileNavbar = () => {
                     >
                         <div className="d-flex flex-column justify-content-between" style={{ width: '18px', height: '12px' }}>
                             <span style={{ height: '2px', backgroundColor: '#0f172a', borderRadius: '2px', width: '100%' }}></span>
-                            <span style={{ height: '2px', backgroundColor: '#0f172a', borderRadius: '2px', width: '75%' }}></span>
+                            <span style={{ height: '2px', backgroundColor: '#0f172a', borderRadius: '2px', width: '100%' }}></span>
                             <span style={{ height: '2px', backgroundColor: '#0f172a', borderRadius: '2px', width: '100%' }}></span>
                         </div>
                     </button>

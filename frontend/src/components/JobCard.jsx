@@ -37,9 +37,8 @@ const JobCard = ({ job }) => {
 
     return (
         <div
-            className='card border-0 p-4 text-start position-relative job-card bg-white shadow-sm'
+            className='card border-0 p-4 text-start position-relative job-card bg-white shadow-sm w-100'
             style={{
-                width: '300px',
                 borderRadius: '16px',
                 border: '1px solid #e2e8f0',
                 color: '#0f172a',
