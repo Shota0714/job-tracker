@@ -8,6 +8,8 @@ import JobList from './pages/JobList';
 import AddJob from './pages/AddJob';
 import UpdateJob from './pages/UpdateJob';
 import NotFound from './pages/NotFound';
+import Account from './pages/Account';
+import AccountEdit from './pages/AccountEdit';
 
 const router = createBrowserRouter([
     {
@@ -51,6 +53,22 @@ const router = createBrowserRouter([
         element: (
             <ProtectedRoutes>
                 <UpdateJob />
+            </ProtectedRoutes>
+        )
+    },
+    {
+        path: '/account',
+        element: (
+            <ProtectedRoutes>
+                <Account />
+            </ProtectedRoutes>
+        )
+    },
+    {
+        path: '/account/edit',
+        element: (
+            <ProtectedRoutes>
+                <AccountEdit />
             </ProtectedRoutes>
         )
     },

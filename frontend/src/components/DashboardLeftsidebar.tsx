@@ -67,6 +67,15 @@ const DashboardLeftsidebar = () => {
                         Job Lists
                     </Link>
                 </li>
+                <li>
+                    <Link
+                        to='/account'
+                        className={`nav-link px-3 py-2 d-flex align-items-center gap-3 ${isActive('/account') ? 'text-dark fw-semibold active' : 'text-muted'}`}
+                        style={isActive('/account') ? { backgroundColor: '#f1f5f9', borderRadius: '10px'} : {}}
+                    >
+                        Account
+                    </Link>
+                </li>
             </ul>
             <div className="pt-3 border-top mt-auto" style={{ borderColor: '#e2e8f0' }}>
                 <div className="d-flex align-items-center gap-3 px-2 py-2">

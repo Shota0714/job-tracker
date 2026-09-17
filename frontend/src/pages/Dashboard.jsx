@@ -153,13 +153,13 @@ const Dashboard = () => {
     };
 
 return (
-        <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc', color: '#0f172a', overflowX: 'hidden' }} className="d-flex pb-sm-100">
-            <div className="d-none d-lg-block">
+        <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc', color: '#0f172a', overflowX: 'hidden' }} className='d-flex pb-sm-100'>
+            <div className='d-none d-lg-block'>
                 <DashboardNavbar />
                 <DashboardLeftsidebar />
             </div>
             <MobileNavbar />
-            <div className='flex-grow-1 d-flex flex-column w-100' style={{ paddingTop: '5rem', paddingLeft: '0px' }} id="content-container">
+            <div className='flex-grow-1 d-flex flex-column w-100' style={{ paddingTop: '5rem', paddingLeft: '0px' }} id='content-container'>
                 <style>{`
                     @media (min-width: 992px) {
                         #content-container {
