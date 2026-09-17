@@ -19,7 +19,7 @@ const LandingPage = () => {
                             JOB <span style={{ color: '#10b981' }}>TRACKER</span>
                         </h1>
                         <p className='text-muted fs-6 lh-lg mb-4'>
-                            Master your workday with Job Manager. The all-in-one platform designed to keep your tasks organized, your priorities clear, and your deadlines on track—no matter what you're working on.
+                            Master your workday with Job Tracker. The all-in-one platform designed to keep your tasks organized, your priorities clear, and your deadlines on track—no matter what you're working on.
                         </p>
                         <Link
                             to='/signup'
