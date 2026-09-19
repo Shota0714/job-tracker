@@ -15,6 +15,7 @@ const AccountEdit = () => {
         confirmPassword: ''
     });
     const [loading, setLoading] = useState(false);
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -57,6 +58,10 @@ const AccountEdit = () => {
                 setMessage({ type: 'danger', text: 'New password do not match' });
                 return;
             }
+            if (password.newPassword.length < 6) {
+                setMessage({ type: 'danger', text: 'Password must be at least 6 characters long' });
+                return;
+            }
             if (!password.currentPassword) {
                 setMessage({ type: 'danger', text: 'Please enter your current password' });
                 return;
@@ -85,10 +90,27 @@ const AccountEdit = () => {
             }, 1500);
         } catch (err) {
             console.log(err);
-            setMessage({ type: 'danger', text: err.response?.data?.msg || err.response?.data?.message || 'Failed to update account. Please try again.' });
+            setMessage({
+                type: 'danger',
+                text: err.response?.data?.msg || 'Failed to update account. Please try again.' });
         } finally {
             setLoading(false);
         };
+    };
+
+    const handleDeleteAccount = async () => {
+        try {
+            await axiosInstance.delete('/auth/profile');
+            localStorage.removeItem('token');
+            navigate('/signup');
+        } catch (err) {
+            console.log(err);
+            setMessage({
+                type: 'danger',
+                text: err.response?.data?.msg || 'Failed to delete account. Please try again.'
+            });
+            setShowDeleteConfirm(false);
+        }
     };
 
     return (
@@ -256,6 +278,40 @@ const AccountEdit = () => {
                                         >
                                             {loading ? 'Saving Changes...' : 'Save Changes'}
                                         </button>
+                                    </div>
+                                    <div className='settings-section mt-3 pt-4 border-top'>
+                                        {!showDeleteConfirm ? (
+                                            <button
+                                                type='button'
+                                                onClick={() => setShowDeleteConfirm(true)}
+                                                className='btn btn-outline-danger w-100 fw-medium shadow-sm py-2'
+                                                style={{ borderRadius: '8px', fontSize: '0.9rem' }}
+                                            >
+                                                Delete Account
+                                            </button>
+                                        ) : (
+                                            <div className='p-3 bg-llight border border-danger rounded-3'>
+                                                <p className='small text-dark fw-semibold mb-2'>Are you sure you want to delete your account? This action cannot be undone and all your job data will be lost.</p>
+                                                <div className='d-flex gap-2'>
+                                                    <button
+                                                        type='button'
+                                                        onClick={handleDeleteAccount}
+                                                        className='btn btn-danger btn-sm w-50 fw-medium'
+                                                        style={{ borderRadius: '6px' }}
+                                                    >
+                                                        Yes, delete
+                                                    </button>
+                                                    <button
+                                                        type='button'
+                                                        onClick={() => setShowDeleteConfirm(false)}
+                                                        className='btn btn-secondary btn-sm w-50 fw-medium'
+                                                        style={{ borderRadius: '6px' }}
+                                                    >
+                                                        Cancel
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 </form>
                             </div>

@@ -69,6 +69,10 @@ const updatePassword = async (req, res) => {
         throw new BadRequestError('Please provide both current and new passwords');
     }
 
+    if (newPassword.length < 6) {
+        throw new BadRequestError('Password must be at least 6 characters long');
+    }
+
     const user = await User.findById(req.user.userId);
 
     if (!user) {
@@ -87,4 +91,21 @@ const updatePassword = async (req, res) => {
     res.status(StatusCodes.OK).json({ msg: 'Password updated successfully' });
 };
 
-module.exports = { login, register, showCurrentUser, updateUser, updatePassword };
+const deleteUser = async (req, res) => {
+    const user = await User.findByIdAndDelete(req.user.userId);
+
+    if (!user) {
+        throw new NotFoundError('User Not Found');
+    }
+
+    res.status(StatusCodes.OK).json({ msg: 'Account deleted successfully' });
+};
+
+module.exports = {
+    login,
+    register,
+    showCurrentUser,
+    updateUser,
+    updatePassword,
+    deleteUser
+};
