@@ -42,4 +42,49 @@ const showCurrentUser = async (req, res) => {
     res.status(StatusCodes.OK).json({ user });
 };
 
-module.exports = { login, register, showCurrentUser };
+const updateUser = async (req, res) => {
+    const { name, email } = req.body;
+
+    if (!name || !email) {
+        throw new BadRequestError('Please provide name and email');
+    }
+
+    const user = await User.findByIdAndUpdate(
+        req.user.userId,
+        { name, email },
+        { new: true, runValidators: true }
+    ).select('name email profileImage');
+
+    if (!user) {
+        throw new NotFoundError('User Not Found');
+    }
+
+    res.status(StatusCodes.OK).json({ user });
+};
+
+const updatePassword = async (req, res) => {
+    const { currentPassword, newPassword } = req.body;
+
+    if (!currentPassword || !newPassword) {
+        throw new BadRequestError('Please provide both current and new passwords');
+    }
+
+    const user = await User.findById(req.user.userId);
+
+    if (!user) {
+        throw new NotFoundError('User Not Found');
+    }
+
+    const isPasswordCorrect = await user.comparePasswords(currentPassword);
+
+    if (!isPasswordCorrect) {
+        throw new UnauthenticatedError('Incorrect current password');
+    }
+
+    user.password = newPassword;
+    await user.save();
+
+    res.status(StatusCodes.OK).json({ msg: 'Password updated successfully' });
+};
+
+module.exports = { login, register, showCurrentUser, updateUser, updatePassword };

@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../utils/axios';
 
 const AccountEdit = () => {
-    const [user, setUser] = useState({ name: '', email: '', profileImage: '', password: '' });
+    const [user, setUser] = useState({ name: '', email: '', profileImage: '' });
     const navigate = useNavigate();
     const [message, setMessage] = useState({ type: '', text: '' });
     const [password, setPassword] = useState({
@@ -27,6 +27,56 @@ const AccountEdit = () => {
         };
         fetchUser();
     }, []);
+
+    const handleProfileChange = (e) => {
+        setUser({ ...user, [e.target.name]: e.target.value} );
+    };
+
+    const handlePasswordChange = (e) => {
+        setPassword({ ...password, [e.target.name]: e.target.value} );
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setMessage({ type: '', text: '' });
+
+        if (password.newPassword || password.currentPassword || password.confirmPassword) {
+            if (password.newPassword !== password.confirmPassword) {
+                setMessage({ type: 'danger', text: 'New password do not match' });
+                return;
+            }
+            if (!password.currentPassword) {
+                setMessage({ type: 'danger', text: 'Please enter your current password' });
+                return;
+            }
+        }
+
+        setLoading(true);
+
+        try {
+            await axiosInstance.put('/auth/profile', {
+                name: user.name,
+                email: user.email
+            });
+
+            if (password.newPassword) {
+                await axiosInstance.put('/auth/change-password', {
+                    currentPassword: password.currentPassword,
+                    newPassword: password.newPassword
+                });
+            }
+
+            setMessage({ type: 'success', text: 'Account updated successfully' });
+            setTimeout(() => {
+                navigate('/account');
+            }, 1500);
+        } catch (err) {
+            console.log(err);
+            setMessage({ type: 'danger', text: err.response?.data?.msg || err.response?.data?.message || 'Failed to update account. Please try again.' });
+        } finally {
+            setLoading(false);
+        };
+    };
 
     return (
         <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc', color: '#0f172a', overflowX: 'hidden' }} className='d-flex'>
@@ -92,6 +142,93 @@ const AccountEdit = () => {
                                         Cancel
                                     </button>
                                 </div>
+                                {message.text && (
+                                    <div className={`alert alert-{message.type} py-2 small mb-4`} role='alert' style={{ borderRadius: '10px' }}>
+                                        {message.text}
+                                    </div>
+                                )}
+                                <form onSubmit={handleSubmit} className='d-flex flex-column'>
+                                    <div className='settings-section'>
+                                        <label className='text-muted small d-block mb-1'>Full Name</label>
+                                        <input
+                                            type='text'
+                                            className='form-control shadow-none fw-semibold text-dark'
+                                            name='name'
+                                            value={user.name}
+                                            onChange={handleProfileChange}
+                                            required
+                                            style={{ borderRadius: '8px', borderColor: '#cbd5e1', padding: '0.5rem 0.75rem', fontSize: '0.95rem' }}
+                                        />
+                                    </div>
+                                    <div className='settings-section'>
+                                        <label className='text-muted small d-block mb-1'>Email Address</label>
+                                        <input
+                                            type='email'
+                                            className='form-control shadow-none fw-semibold text-dark'
+                                            name='email'
+                                            value={user.email}
+                                            onChange={handleProfileChange}
+                                            required
+                                            style={{ borderRadius: '8px', borderColor: '#cbd5e1', padding: '0.5rem 0.75rem', fontSize: '0.95rem' }}
+                                        />
+                                    </div>
+                                    <div className='settings-section'>
+                                        <span
+                                            className='text-muted small d-block mb-2 fw-bold text-uppercase'
+                                            style={{ fontSize: '0.75rem', letterSpacing: '0.5px' }}
+                                        >
+                                            Change Password (Optional)
+                                        </span>
+                                        <div className='d-flex flex-column gap-2'>
+                                            <div>
+                                                <label className='form-label text-muted small mb-1' style={{ fontSize: '0.8rem' }}>Current Password</label>
+                                                <input
+                                                    type='password'
+                                                    className='form-control shadow-none'
+                                                    name='currentPassword'
+                                                    value={password.currentPassword}
+                                                    onChange={handlePasswordChange}
+                                                    placeholder='Required if changing password'
+                                                    style={{ borderRadius: '8px', borderColor: '#cbd5e1', padding: '0.5rem 0.75rem', fontSize: '0.9rem' }}
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className='form-label text-muted small mb-1' style={{ fontSize: '0.8rem' }}>New Password</label>
+                                                <input
+                                                    type='password'
+                                                    className='form-control shadow-none'
+                                                    name='newPassword'
+                                                    value={password.newPassword}
+                                                    onChange={handlePasswordChange}
+                                                    placeholder='Leave blank to keep current'
+                                                    style={{ borderRadius: '8px', borderColor: '#cbd5e1', padding: '0.5rem 0.75rem', fontSize: '0.9rem' }}
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className='form-label text-muted small mb-1' style={{ fontSize: '0.8rem' }}>Confirm New Password</label>
+                                                <input
+                                                    type='password'
+                                                    className='form-control shadow-none'
+                                                    name='confirmPassword'
+                                                    value={password.confirmPassword}
+                                                    onChange={handlePasswordChange}
+                                                    placeholder='Confirm new password'
+                                                    style={{ borderRadius: '8px', borderColor: '#cbd5e1', padding: '0.5rem 0.75rem', fontSize: '0.9rem' }}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className='mt-3'>
+                                        <button
+                                            type='submit'
+                                            className='btn btn-dark w-100 fw-medium shadow-sm py-2'
+                                            disabled={loading}
+                                            style={{ borderRadius: '8px', backgroundColor: '#0f172a', fontSize: '0.9rem' }}
+                                        >
+                                            {loading ? 'Saving Changes...' : 'Save Changes'}
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
