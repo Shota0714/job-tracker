@@ -36,6 +36,18 @@ const AccountEdit = () => {
         setPassword({ ...password, [e.target.name]: e.target.value} );
     };
 
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setUser({ ...user, profileImage: reader.result });
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setMessage({ type: '', text: '' });
@@ -56,7 +68,8 @@ const AccountEdit = () => {
         try {
             await axiosInstance.put('/auth/profile', {
                 name: user.name,
-                email: user.email
+                email: user.email,
+                profileImage: user.profileImage
             });
 
             if (password.newPassword) {
@@ -113,21 +126,37 @@ const AccountEdit = () => {
                             <div className='card border-0 shadow-sm p-4 p-md-4 bg-white account-card'>
                                 <div className='d-flex align-items-center justify-content-between mb-4 pb-3 border-bottom'>
                                     <div className='d-flex align-items-center gap-3'>
-                                        {user.profileImage ? (
-                                            <img
-                                                src={user.profileImage}
-                                                alt='Profile'
-                                                className='rounded-circle object-fit-cover flex-shrink-0 shadow-sm'
-                                                style={{ width: '50px', height: '50px' }}
-                                            />
-                                        ) : (
-                                            <div
-                                                className='rounded-circle bg-light text-primary d-flex align-items-center justify-content-center fw-bold flex-shrink-0 border'
-                                                style={{ width: '50px', height: '50px', fontSize: '1.1rem', borderColor: '#e2e8f0' }}
-                                            >
-                                                {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                                        <div
+                                            className='position-relative'
+                                            style={{ cursor: 'pointer' }}
+                                            onClick={() => document.getElementById('profileImageInput').click()}
+                                        >
+                                            {user.profileImage ? (
+                                                <img
+                                                    src={user.profileImage}
+                                                    alt='Profile'
+                                                    className='rounded-circle object-fit-cover flex-shrink-0 shadow-sm'
+                                                    style={{ width: '50px', height: '50px' }}
+                                                />
+                                            ) : (
+                                                <div
+                                                    className='rounded-circle bg-light text-primary d-flex align-items-center justify-content-center fw-bold flex-shrink-0 border'
+                                                    style={{ width: '50px', height: '50px', fontSize: '1.1rem', borderColor: '#e2e8f0' }}
+                                                >
+                                                    {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                                                </div>
+                                            )}
+                                            <div className='position-absolute bottom-0 end-0 bg-dark text-white rounded-circle d-flex align-items-center justify-content-center' style={{ width: '18px', height: '18px', fontSize: '10px' }}>
+                                                +
                                             </div>
-                                        )}
+                                        </div>
+                                        <input
+                                            type='file'
+                                            id='profileImageInput'
+                                            style={{ display: 'none' }}
+                                            accept='image/*'
+                                            onChange={handleImageChange}
+                                        />
                                         <div>
                                             <h5 className='fw-bold text-dark mb-0'>{user?.name || 'Loading...'}</h5>
                                             <span className='text-muted small'>{user?.email || '...'}</span>

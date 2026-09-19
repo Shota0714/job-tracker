@@ -43,7 +43,7 @@ const showCurrentUser = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-    const { name, email } = req.body;
+    const { name, email, profileImage } = req.body;
 
     if (!name || !email) {
         throw new BadRequestError('Please provide name and email');
@@ -51,7 +51,7 @@ const updateUser = async (req, res) => {
 
     const user = await User.findByIdAndUpdate(
         req.user.userId,
-        { name, email },
+        { name, email, profileImage },
         { new: true, runValidators: true }
     ).select('name email profileImage');
 
